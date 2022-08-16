@@ -209,13 +209,17 @@ public:
 
 class fixed_size_allocator
 {
-public:
+private:
 
     std::size_t block_size_;
+
     std::vector<bucket> buckets_;
+
     bucket* last_alloc_;
     bucket* last_dealloc_;
     bucket* last_empty_;
+
+public:
 
     void init(std::size_t block_size) noexcept
     {
