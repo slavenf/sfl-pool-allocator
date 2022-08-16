@@ -43,13 +43,14 @@ namespace sfl
 namespace dtl
 {
 
-#define SFL_BUCKET_SIZE (UINT16_MAX * 2)
-
 class bucket
 {
 private:
 
+    static constexpr std::size_t SFL_BUCKET_SIZE = UINT16_MAX * 2;
+
     unsigned char* data_;
+
     std::uint16_t block_size_;
     std::uint16_t num_blocks_;
     std::uint16_t num_used_blocks_;
@@ -60,7 +61,7 @@ private:
     /// Access to node in embedded linked list.
     /// Function does not check whether the given block is used or unused.
     ///
-    uint16_t& node_in_embedded_list(std::size_t block_idx) const noexcept
+    std::uint16_t& node_in_embedded_list(std::size_t block_idx) const noexcept
     {
         // Pointer to the beginning of the block.
         unsigned char* p = data_ + block_idx * block_size_;
