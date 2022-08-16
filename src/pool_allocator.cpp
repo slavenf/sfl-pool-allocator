@@ -163,6 +163,7 @@ public:
     void deallocate(void* p) noexcept
     {
         SFL_ASSERT(data_ != nullptr);
+        SFL_ASSERT(num_used_blocks_ > 0);
         SFL_ASSERT(p >= data_ && p < data_ + SFL_BUCKET_SIZE);
 
         unsigned char* q = static_cast<unsigned char*>(p);
