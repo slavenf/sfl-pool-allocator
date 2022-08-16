@@ -171,14 +171,12 @@ public:
 
         const std::size_t block_idx = (q - data_) / block_size_;
 
-        #if 0
-        #ifndef NDEBUG
-        // Check if block was already deallocated.
-        for(auto i = first_unused_block_; i < num_blocks_; i = node_in_embedded_list(i))
+        #ifdef SFL_POOL_ALLOCATOR_EXTRA_CHECKS
+        for(std::uint16_t i = first_unused_block_; i < num_blocks_; i = node_in_embedded_list(i))
         {
+            // Double free check.
             SFL_ASSERT(i != block_idx);
         }
-        #endif
         #endif
 
         node_in_embedded_list(block_idx) = first_unused_block_;

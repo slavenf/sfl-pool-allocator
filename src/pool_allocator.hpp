@@ -30,6 +30,16 @@
 #define SFL_POOL_ALLOCATOR_MAX_BLOCK_SIZE 128
 #endif
 
+#if 0
+#define SFL_POOL_ALLOCATOR_EXTRA_CHECKS
+#endif
+
+#ifdef SFL_POOL_ALLOCATOR_EXTRA_CHECKS
+#ifdef NDEBUG
+#undef SFL_POOL_ALLOCATOR_EXTRA_CHECKS
+#endif
+#endif
+
 #define SFL_ASSERT(x) assert(x)
 
 namespace sfl
