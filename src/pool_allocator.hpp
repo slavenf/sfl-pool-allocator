@@ -120,6 +120,43 @@ public:
 
     using value_type = T;
 
+    pool_allocator() noexcept
+    {
+        // Call member function instance() to make sure that singleton is
+        // created before any container using this allocator is created.
+        // This guarantees that singleton's destructor is executed after
+        // the last container's destructor is executed, even if some of
+        // containers is global or static object.
+        ::sfl::dtl::small_size_allocator_singleton::instance();
+    }
+
+    pool_allocator(const pool_allocator&) noexcept
+    {}
+
+    template <typename U>
+    pool_allocator(const pool_allocator<U>&) noexcept
+    {}
+
+    pool_allocator(pool_allocator&&) noexcept
+    {}
+
+    template <typename U>
+    pool_allocator(pool_allocator<U>&&) noexcept
+    {}
+
+    ~pool_allocator() noexcept
+    {}
+
+    pool_allocator& operator=(const pool_allocator&) noexcept
+    {
+        return *this;
+    }
+
+    pool_allocator& operator=(pool_allocator&&) noexcept
+    {
+        return *this;
+    }
+
     T* allocate(std::size_t n, const void* = nullptr)
     {
         void* p = ::sfl::dtl::small_size_allocator_singleton::instance().allocate(
