@@ -1,3 +1,6 @@
+0.2.1 (2022-08-29)
+* Bug fix: Default constructor of `pool_allocator` can throw.
+
 0.2.0 (2022-08-29)
 * Bug fix: Constructor of `pool_allocator` must make sure that singleton
   is created.
