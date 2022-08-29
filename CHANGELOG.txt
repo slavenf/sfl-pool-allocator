@@ -1,2 +1,9 @@
+0.2.0 (2022-08-29)
+* Bug fix: Constructor of `pool_allocator` must make sure that singleton
+  is created.
+* Define macro `SFL_POOL_ALLOCATOR_EXTRA_CHECKS` to enable extra checks.
+  Extra checks are perfomed only in debug mode (i.e. when macro `NDEBUG` is
+  not defined).
+
 0.1.0 (2022-08-15)
 * First release.
