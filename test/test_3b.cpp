@@ -43,24 +43,26 @@ int main()
             std::mt19937 gen(rd());
             // For random subvector size:
             std::uniform_int_distribution<> distrib1(1, SUBVECTOR_SIZE);
-            // For random subvector element:
-            std::uniform_int_distribution<> distrib2(0, 255);
 
             std::size_t sum = 0;
 
             benchmark
             (
-                "Resizing subvectors and inserting random elements",
+                "Resizing subvectors and inserting elements",
                 [&]()
                 {
+                    std::size_t counter = 0;
+
                     for (auto& subvec : vec)
                     {
-                        subvec.resize(distrib1(gen));
+                        const std::size_t sz = distrib1(gen);
 
-                        for (auto& elem : subvec)
+                        subvec.reserve(sz);
+
+                        for (std::size_t i = 0; i < sz; ++i)
                         {
-                            elem = distrib2(gen);
-                            sum += elem;
+                            subvec.push_back(++counter);
+                            sum += subvec.back();
                         }
                     }
                 }
@@ -86,7 +88,6 @@ int main()
             if (control_sum != sum)
             {
                 std::cout << "ERROR: control_sum != sum" << std::endl;
-                std::abort();
             }
         }
     );
