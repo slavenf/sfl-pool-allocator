@@ -79,6 +79,15 @@ into your project directory and compile together with your project.
 
 Use `sfl::pool_allocator` as a drop-in replacement for `std::allocator`.
 
+Consider using `std::vector<T, sfl::pool_allocator<T>>` instead of `std::vector<T>`
+when the capacity of vector is small and the size of `T` is small.
+Memory for vector will be allocated from the pool if the capacity of vector
+multiplied by size of `T` is less than the maximal block size that
+memory pool is configured for.
+
+Also consider using `sfl::pool_allocator` when using `std::deque`, `std::list`,
+`std::map`, `std::set` and other associative containers.
+
 # Configuration
 
 All instances of `sfl::pool_allocator` are using the same memory pool
