@@ -44,7 +44,7 @@ place suitable for creation of new buckets.
 
 ## Class template sfl::pool_allocator
 
-`sfl::pool_allocator` is defined in header `pool_allocator.hpp`:
+Defined in header `pool_allocator.hpp`:
 
 ```txt
 namespace sfl {
