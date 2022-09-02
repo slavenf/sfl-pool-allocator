@@ -3,6 +3,8 @@
 The `sfl::pool_allocator` is a C++11 memory allocator based on memory pools.
 It offers fast and efficient allocation of a large number of small-size objects.
 
+## Memory pool organization
+
 This memory allocator uses memory *pool* which is organized in the form of *buckets*.
 Bucket is larger fixed-size chunk of memory.
 Each bucket consists of integral number of fixed-size memory *blocks*.
@@ -21,6 +23,7 @@ On Linux and Unix buckets are allocated by function `mmap` from header `<sys/mma
 On Windows buckets are allocated by function `VirtualAlloc` from header `<memoryapi.h>`.
 Both `mmap` and `VirtualAlloc` allocate memory starting at the beginning of the
 memory page and both functions allocate integral number of memory pages.
+
 Having equal-in-size and page-aligned buckets, destruction of one bucket creates a
 place suitable for construction of another bucket which can be specialized for
 different block size.
@@ -39,6 +42,30 @@ The allocator keep tracks of empty buckets and destroys them.
 Destroying empty buckets the allocator reduces memory consumption and makes
 place suitable for creation of new buckets.
 
+## Class template sfl::pool_allocator
+
+`sfl::pool_allocator` is defined in header `pool_allocator.hpp`:
+
+```txt
+namespace sfl {
+
+template <typename T>
+class pool_allocator;
+
+}
+```
+
+`sfl::pool_allocator` is class template that meets requirements of
+[`Allocator`](https://en.cppreference.com/w/cpp/named_req/Allocator).
+Optional requirements are not implemented because all allocator-aware classes,
+including standard library containers, access allocators indirectly through
+`std::allocator_traits`, and `std::allocator_traits` supplies the default
+implementation of those requirements.
+
+All instances of `sfl::pool_allocator` use the same memory pool.
+
+All instances of `sfl::pool_allocator` are thread safe.
+
 # Requirements
 
 The only requirement is C++11 compiler or newer.
@@ -50,44 +77,7 @@ into your project directory and compile together with your project.
 
 # Usage
 
-The `sfl::pool_allocator` is defined in header `pool_allocator.hpp`.
-
-```txt
-namespace sfl
-{
-
-template <typename T>
-class pool_allocator;
-
-}
-```
-
-The `sfl::pool_allocator` is class template that meets requirements of
-[`Allocator`](https://en.cppreference.com/w/cpp/named_req/Allocator).
-Optional requirements are not implemented because all allocator-aware classes,
-including standard library containers, access allocators indirectly through
-`std::allocator_traits`, and `std::allocator_traits` supplies the default
-implementation of those requirements.
-
-All instances of `sfl::pool_allocator` are using the same memory pool.
-
-All instances of `sfl::pool_allocator` are thread safe.
-
-
-The `sfl::pool_allocator` can be used as a drop-in replacement of `std::allocator`.
-For example, instead of
-
-```txt
-std::vector<T> vec;
-```
-
-you can use
-
-```txt
-std::vector<T, sfl::pool_allocator<T>> vec;
-```
-
-Do not forget to include `pool_allocator.hpp` first.
+Use `sfl::pool_allocator` as a drop-in replacement for `std::allocator`.
 
 # Configuration
 
