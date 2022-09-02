@@ -68,7 +68,8 @@ All instances of `sfl::pool_allocator` are thread safe.
 
 # Requirements
 
-The only requirement is C++11 compiler or newer.
+1. Linux, Unix or Windows operating system.
+2. C++11 compiler or newer.
 
 # Installation
 
@@ -129,6 +130,21 @@ exceptions of type derived from `std::exception` could also be throw.
 # Debugging
 
 This library extensively uses macro `assert` from header `<cassert>`.
+
+The definition of the macro `assert` depends on another macro, `NDEBUG`,
+which is not defined by the standard library.
+
+If `NDEBUG` is defined then `assert` does nothing.
+
+If `NDEBUG` is not defined then `assert` performs check.
+If check fails, `assert` outputs implementation-specific diagnostic
+information on the standard error output and calls `std::abort`.
+
+Extra checks can be enabled by defining macro `SFL_POOL_ALLOCATOR_EXTRA_CHECKS`.
+Enable extra checks if you suspect on *double free* error.
+Keep in mind that extra checks are extra expensive (in time).
+
+If `NDEBUG` is defined then extra checks are not enabled.
 
 # Tests
 
